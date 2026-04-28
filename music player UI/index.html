@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player UI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+    
+</head>
+<body>
+    <div class="container">
+        <div class="player">
+            <nav>
+                <div class="circle">
+                    <i class="fa-solid fa-angle-left"></i>
+                </div>
+                <div class="circle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </nav>
+
+            <img src="https://i.pinimg.com/736x/0e/86/b7/0e86b7d9ac30a8e3717ff659052b468d.jpg" class="song-img">
+            <h1>Fairytale</h1>
+            <p>Alexander Rybak</p>
+
+            <audio id="song">
+                <source src="Alexander Rybak - Fairytale (Lyrics) Norway Eurovision Winner 2009.mp3" type="audio/mpeg" autopaly="Flase">
+            </audio>
+
+            <input type="range" value="0" id="progress">
+
+            <div class="controls">
+                <div><i class="fa-solid fa-backward"></i></div>
+                <div onclick="PausePlay()"><i class="fa-solid fa-play" id="ctrlIcon"></i></div>
+                <div><i class="fa-solid fa-forward"></i></div>
+            </div>
+        </div>
+    </div>
+     
+    <script>
+        let progress = document.getElementById('progress');
+        let song = document.getElementById('song');
+        let control = document.getElementById('ctrlIcon');
+        song.onloadedmetadata = function() {
+            progress.max = song.duration;
+            progress.value = song.currentTime;
+        }
+
+        function PausePlay() {
+            if (control.classList.contains('fa-pause')) {
+                song.pause();
+                control.classList.remove('fa-pause');
+                control.classList.add('fa-play');
+                ;
+            } else {
+                song.play();
+                control.classList.add('fa-pause');
+                control.classList.remove('fa-play');
+            }
+        }
+
+        if(song.play()) {
+            setInterval(() => {
+                progress.value = song.currentTime;
+            }, 500);
+        }
+
+        progress.onchange = function() {
+            song.play();
+            song.currentTime = progress.value;
+            control.classList.add('fa-pause');
+            control.classList.remove('fa-play');
+        }
+    </script>
+</body>
+</html>
